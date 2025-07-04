@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Feedback List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f8;
+      margin: 0;
+      padding: 10px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+    table {
+      /* width: 100%; */
+      border-collapse: collapse;
+      margin: 0 auto;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>LLM Feedback List</h2>
+    <a href="/download_feedback" style="display:inline-block; margin-bottom: 20px; padding: 8px 16px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Download as CSV</a>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Feedback ID</th>
+            <th>Student ID</th>
+            <th>Question ID</th>
+            <th>Skill</th> <!-- 新增 -->
+            <th>Knowledge Level</th> <!-- 新增 -->
+          <!-- <th>Initial Understanding</th> -->
+            <th>DeepSeek Default</th>
+            <th>DeepSeek Skills</th>
+            <th>DeepSeek Hobbies</th>
+           <th>DeepSeek Subjects</th>
+            <th>DeepSeek All</th>
+            <th>OpenAI Default</th>
+            <th>OpenAI Skills</th>
+            <th>OpenAI Hobbies</th>
+            <th>OpenAI Subjects</th>
+            <th>OpenAI All</th>
+          <!-- <th>Final Understanding</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for f in feedbacks %}
+          <tr>
+            <td>{{ f.feedback_id }}</td>
+            <td>{{ f.student_id }}</td>
+            <td>{{ f.question_id }}</td>
+            <td>
+              {% if f.question_id <= 6 %}
+                {{ f.skill_name }}
+              {% else %}
+                 -
+              {% endif %}
+            </td>
+            <td>
+              {% if f.question_id <= 6 %}
+                {{ f.knowledge_level }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+          <!-- <td>{{ f.initial_understanding }}</td> -->
+            <td>{{ f.deepseek_default_rank }}</td>
+            <td>{{ f.deepseek_skills_rank }}</td>
+            <td>{{ f.deepseek_hobbies_rank }}</td>
+            <td>{{ f.deepseek_subjects_rank }}</td>
+            <td>{{ f.deepseek_all_rank }}</td>
+            <td>{{ f.openai_default_rank }}</td>
+            <td>{{ f.openai_skills_rank }}</td>
+            <td>{{ f.openai_hobbies_rank }}</td>
+            <td>{{ f.openai_subjects_rank }}</td>
+            <td>{{ f.openai_all_rank }}</td>
+            <!-- <td>{{ f.final_understanding }}</td> -->
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>  
+  </div>
+</body>
+</html>
