@@ -127,16 +127,21 @@ def render_survey_route(questions_range, template):
             ranks = [request.form.get(f'rank_{j}_{idx}') for j in range(1, 6)]
 
             cursor.execute("""
-                UPDATE llm_feedback
-                SET 
-                    deepseek_default_rank = %s,
-                    deepseek_skills_rank = %s,
-                    deepseek_hobbies_rank = %s,
-                    deepseek_subjects_rank = %s,
-                    deepseek_all_rank = %s
-                WHERE 
-                    student_id = %s AND question_id = %s;
-            """, (*ranks,student_id, qid))
+                INSERT INTO llm_feedback (
+                    student_id, question_id, 
+                    deepseek_default_rank,
+                    deepseek_skills_rank,
+                    deepseek_hobbies_rank,
+                    deepseek_subjects_rank,
+                    deepseek_all_rank
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    deepseek_default_rank = VALUES(deepseek_default_rank),
+                    deepseek_skills_rank = VALUES(deepseek_skills_rank),
+                    deepseek_hobbies_rank = VALUES(deepseek_hobbies_rank),
+                    deepseek_subjects_rank = VALUES(deepseek_subjects_rank),
+                    deepseek_all_rank = VALUES(deepseek_all_rank);
+            """, (student_id, qid, *ranks))
 
         conn.commit()
         cursor.close()

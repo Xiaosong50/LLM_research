@@ -127,16 +127,21 @@ def render_survey_route(questions_range, template):
             ranks = [request.form.get(f'rank_{j}_{idx}') for j in range(1, 6)]
 
             cursor.execute("""
-                UPDATE llm_feedback
-                SET 
-                    openai_default_rank = %s,
-                    openai_skills_rank = %s,
-                    openai_hobbies_rank = %s,
-                    openai_subjects_rank = %s,
-                    openai_all_rank = %s
-                WHERE 
-                    student_id = %s AND question_id = %s;
-            """, (*ranks,student_id, qid))
+                INSERT INTO llm_feedback (
+                    student_id, question_id, 
+                    openai_default_rank,
+                    openai_skills_rank,
+                    openai_hobbies_rank,
+                    openai_subjects_rank,
+                    openai_all_rank
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    openai_default_rank = VALUES(openai_default_rank),
+                    openai_skills_rank = VALUES(openai_skills_rank),
+                    openai_hobbies_rank = VALUES(openai_hobbies_rank),
+                    openai_subjects_rank = VALUES(openai_subjects_rank),
+                    openai_all_rank = VALUES(openai_all_rank);
+            """, (student_id, qid, *ranks))
 
         conn.commit()
         cursor.close()
