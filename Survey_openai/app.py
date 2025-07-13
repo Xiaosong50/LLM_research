@@ -252,7 +252,7 @@ def feedback():
                END AS knowledge_level
         FROM llm_feedback f
         JOIN answers a ON f.student_id = a.id
-        ORDER BY f.student_id, f.feedback_id
+        ORDER BY f.feedback_id, f.student_id
     """)
     feedbacks = cursor.fetchall()
 
@@ -290,7 +290,7 @@ def download_feedback():
                END AS knowledge_level
         FROM llm_feedback f
         JOIN answers a ON f.student_id = a.id
-        ORDER BY f.student_id, f.feedback_id
+        ORDER BY f.feedback_id, f.student_id
     """)
 
     rows = cursor.fetchall()
