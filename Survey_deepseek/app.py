@@ -231,7 +231,7 @@ def feedback():
     cursor = conn.cursor(dictionary=True)
 
     cursor.execute("""
-        SELECT f.*, 
+        SELECT f.*, a.gender, a.level_of_study,
                CASE f.question_id
                    WHEN 1 THEN 'java_programming'
                    WHEN 2 THEN 'SQL'
@@ -269,7 +269,7 @@ def download_feedback():
 
     # 跟 feedback 页面一样的查询，带上 Skill 和 Knowledge Level
     cursor.execute("""
-        SELECT f.*, 
+        SELECT f.*, a.gender, a.level_of_study,
                CASE f.question_id
                    WHEN 1 THEN 'java_programming'
                    WHEN 2 THEN 'SQL'
@@ -303,9 +303,9 @@ def download_feedback():
     # CSV列名
     header = [
         'Feedback ID', 'Student ID', 'Question ID',
-        'Skill', 'Knowledge Level', 
+        'Skill', 'Knowledge Level', 'Gender','Level of study',
         'Deepseek Default', 'Deepseek Skills', 'Deepseek Hobbies', 'Deepseek Subjectsnk', 'Deepseek All', 
-        'deepseek Default','deepseek Skills', 'deepseek Hobbies', 'deepseek Subjectsnk', 'deepseek All'
+        'OpenAI Default','OpenAI Skills', 'OpenAI Hobbies', 'OpenAI Subjectsnk', 'OpenAI All'
     ]
     writer.writerow(header)
 
@@ -316,16 +316,18 @@ def download_feedback():
             row['question_id'],
             row['skill_name'] if row['question_id'] <= 6 else '-',
             row['knowledge_level'] if row['question_id'] <= 6 else '-',
+            row['gender'],
+            row['level_of_study'],
             row['deepseek_default_rank'],
             row['deepseek_skills_rank'],
             row['deepseek_hobbies_rank'],
             row['deepseek_subjects_rank'],
             row['deepseek_all_rank'],
-            row['deepseek_default_rank'],
-            row['deepseek_skills_rank'],
-            row['deepseek_hobbies_rank'],
-            row['deepseek_subjects_rank'],
-            row['deepseek_all_rank'],
+            row['openai_default_rank'],
+            row['openai_skills_rank'],
+            row['openai_hobbies_rank'],
+            row['openai_subjects_rank'],
+            row['openai_all_rank'],
         ])
 
     output.seek(0)
@@ -337,4 +339,4 @@ def download_feedback():
 
 if __name__ == '__main__':
     # app.run(debug=True)
-    app.run(host='0.0.0.0', port=3000)
+    app.run(host='0.0.0.0', port=8080)

@@ -62,6 +62,8 @@
             <th>Skill</th> <!-- 新增 -->
             <th>Knowledge Level</th> <!-- 新增 -->
           <!-- <th>Initial Understanding</th> -->
+            <th>Gender</th>
+            <th>Level of study</th>
             <th>DeepSeek Default</th>
             <th>DeepSeek Skills</th>
             <th>DeepSeek Hobbies</th>
@@ -96,6 +98,8 @@
               {% endif %}
             </td>
           <!-- <td>{{ f.initial_understanding }}</td> -->
+            <td>{{ f.gender }}</td>
+            <td>{{ f.level_of_study }}</td>
             <td>{{ f.deepseek_default_rank }}</td>
             <td>{{ f.deepseek_skills_rank }}</td>
             <td>{{ f.deepseek_hobbies_rank }}</td>
