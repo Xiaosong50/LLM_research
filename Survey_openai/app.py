@@ -305,7 +305,7 @@ def download_feedback():
         'Feedback ID', 'Student ID', 'Question ID',
         'Skill', 'Knowledge Level', 'Gender','Level of study',
         'Deepseek Default', 'Deepseek Skills', 'Deepseek Hobbies', 'Deepseek Subjects', 'Deepseek All', 
-        'OpenAI Default','OpenAI Skills', 'OpenAI Hobbies', 'OpenAI Subjectsnk', 'OpenAI All'
+        'OpenAI Default','OpenAI Skills', 'OpenAI Hobbies', 'OpenAI Subjects', 'OpenAI All'
     ]
     writer.writerow(header)
 
